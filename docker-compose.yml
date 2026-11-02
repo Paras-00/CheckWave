@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: checkwave-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: checkwave-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-data:

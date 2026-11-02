@@ -1,0 +1,16 @@
+{
+  "name": "checkwave-root",
+  "version": "1.0.0",
+  "description": "CheckWave - Website Performance Monitoring System",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start:backend": "npm --prefix backend run dev",
+    "start:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "test:backend": "npm --prefix backend test",
+    "seed": "npm --prefix backend run seed",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  }
+}
