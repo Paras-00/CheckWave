@@ -63,12 +63,22 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem('checkwave_user', JSON.stringify(fetchedUser));
         }
       } catch (err) {
-        // If token invalid, clear state
-        if (isMounted) {
-          setToken(null);
-          setUser(null);
-          localStorage.removeItem('checkwave_token');
-          localStorage.removeItem('checkwave_user');
+        // Only clear session if server explicitly returned 401 Unauthorized
+        if (err.response?.status === 401) {
+          if (isMounted) {
+            setToken(null);
+            setUser(null);
+            localStorage.removeItem('checkwave_token');
+            localStorage.removeItem('checkwave_user');
+          }
+        } else {
+          // If network error / backend offline, keep stored session so demo mode persists
+          const storedUser = localStorage.getItem('checkwave_user');
+          if (storedUser && isMounted) {
+            try {
+              setUser(JSON.parse(storedUser));
+            } catch {}
+          }
         }
       } finally {
         if (isMounted) {
